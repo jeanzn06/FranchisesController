@@ -9,7 +9,7 @@ public class AppDbContext : DbContext
     {
     }
 
-    public DbSet<Franchise> Franchises { get; set; }
+public DbSet<Franchise.Api.Models.Franchise> Franchises { get; set; }
 
     public DbSet<Branch> Branches { get; set; }
 
