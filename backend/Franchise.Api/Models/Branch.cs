@@ -9,4 +9,6 @@ public class Branch
     public int FranchiseId { get; set; }
 
     public Franchise? Franchise { get; set; }
+
+    public List<Product>? Products { get; set; }
 }

@@ -36,4 +36,31 @@ public class FranchiseController : ControllerBase
 
         return Ok(franchises);
     }
+    [HttpGet("{id}/top-products")]
+public async Task<IActionResult> GetTopProductsByFranchise(int id)
+{
+    var franchise = await _context.Franchises
+        .Include(f => f.Branches)
+        .ThenInclude(b => b.Products)
+        .FirstOrDefaultAsync(f => f.Id == id);
+
+    if (franchise == null)
+    {
+        return NotFound("Franchise not found");
+    }
+
+   var result = franchise.Branches.Select(branch => new
+{
+    Branch = branch.Name,
+    TopProduct = branch.Products?
+        .OrderByDescending(p => p.Stock)
+        .Select(p => new
+        {
+            p.Name,
+            p.Stock
+        })
+        .FirstOrDefault()
+});
+    return Ok(result);
+}
 }
